@@ -1,35 +1,55 @@
 Module.register("MMM-MedicineFirebase",{
-  start: function (){
-      this.count = 0
+  defaults: {
+    firebaseDatabaseRootRef: '/medicines/106336659285619048398',
+    title: 'Medicines',
+  },
+  getScripts: function() {
+    return [
+      'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js',
+    ];
+  },
+  getStyles: function() {
+    return [
+      'https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css',
+      'MMM-MedicineFirebase.css',
+    ];
+  },
+  start: function() {
+    this.sendConfig();
+  },
+
+  sendConfig: function() {
+    Log.info(`[${this.name}]: SEND_CONFIG`, this.config);
+    //this.sendSocketNotification('SEND_CONFIG', this.config);
   },
   getDom: function() {
-      var element = document.createElement("div")
-      element.className = "myContent"
-      element.innerHTML = "Medicines"
-      var subElement = document.createElement("p")
-      subElement.id = "NAME"
-      element.appendChild(subElement)
-      var subElement2 = document.createElement("p")
-      subElement2.id = "DETAILS"
-      element.appendChild(subElement2)
-      return element
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = `
+      <h2 class="title">Medicines</h2>
+		`;
+    const subElement = document.createElement("p");
+      subElement.id = "DETAILS";
+      wrapper.appendChild(subElement);
+    
+    return wrapper;
       },
-  notificationReceived: function(notification, payload, sender) { 
-      switch(notification) {
-        case "DOM_OBJECTS_CREATED":
-              var x = 1;
-              this.sendSocketNotification("DO_YOUR_JOB", this.x);
-              break
-        }
-  },
+  
   socketNotificationReceived: function(notification, payload) {
-      switch(notification) {
-       case "I_DID":
-        var elem = document.getElementById("NAME")
-        elem.innerHTML = payload.medName;
-        var elem2 = document.getElementById("DETAILS")
-        elem2.innerHTML = payload.medDay + ", " + payload.medTime + ", " + payload.medFood       
-        break
-       }
+    Log.info(
+      `[${this.name}] socketNotificationReceived notification ${notification}`,
+      payload,
+    );
+
+    if (notification === 'MEDICINE_ADDED'){
+      var elem = document.getElementById("NAME");
+        elem.innerHTML = payload.medName + ", " + payload.medDay + ", " + payload.medTime + ", " + payload.medFood;
+      
+      }
+    if (notification === 'MEDICINES_CHANGED') {
+      this.medicines = payload;
+      return this.updateDom();
+    }
+
+    return false;
   },
 });
