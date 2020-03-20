@@ -1,6 +1,10 @@
 Module.register("MMM-MedicineFirebase",{
   defaults: {
     message: '',
+    medName: '',
+    medDay: '',
+    medTime: '',
+    medFood: '',
     firebaseDatabaseRootRef: '/medicines/106336659285619048398',
     title: 'Medicines',
   },
@@ -33,7 +37,10 @@ Module.register("MMM-MedicineFirebase",{
 
     if (notification === 'MEDICINE_ADDED'){
       this.config.message = payload;
-      this.payload2 = payload;
+      this.config.medName = payload.medName;
+      this.config.medDay = payload.medDay;
+      this.config.medTime = payload.medTime;
+      this.config.medFood = payload.medFood;
       this.updateDom();
       }
     if (notification === 'MEDICINES_CHANGED') {
@@ -60,32 +67,25 @@ Module.register("MMM-MedicineFirebase",{
         <li class="attribute">
           <!--<span class="icon zmdi zmdi-user zmdi-hc-fw"></span>-->
           <span class="name">Medicine Name</span>
-          <span class="value">${this.config.message.medName}</span>
+          <span class="value">${this.config.medName}</span>
         </li>
         <li class="attribute">
           <!--<span class="icon zmdi zmdi-car zmdi-hc-fw"></span>-->
           <span class="name">Day</span>
-          <span class="value">${medicine.medDay}</span>
+          <span class="value">${this.config.medDay}</span>
         </li>
         <li class="attribute">
           <!--<span class="icon zmdi zmdi-clock-outline-alt zmdi-hc-fw"></span>-->
           <span class="name">Time</span>
-          <span class="value">${medicine.medTime}</span>
+          <span class="value">${this.config.medTime}</span>
         </li>
         <li class="attribute">
           <!--<span class="icon zmdi zmdi-food-outline zmdi-hc-fw"></span>-->
           <span class="name">Food</span>
-          <span class="value">${medicine.medFood}</span>
+          <span class="value">${this.config.medFood}</span>
         </li>
 		  </ul>
 		`;
     return wrapper;
-    
-    
-
-    //I'm not sure whether I want to pass the payload over here and then display the values or display the values down in the 
-    //NotificationReceived method. I'm not doing it right, so both aren't working anyway. :(
-    
-    /* */
   },
 });
