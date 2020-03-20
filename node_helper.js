@@ -16,6 +16,7 @@ if (!firebase.apps.length) {
 }
 module.exports = NodeHelper.create({
     start: function() {
+      var self = this;
        rootRef = firebase.app().database().ref();
        urlRef = rootRef.child('medicines/106336659285619048398');
        urlRef.on('value', function(snapshot) {
@@ -38,7 +39,7 @@ module.exports = NodeHelper.create({
 	console.log("Day : " + newPost.medDay);
 	console.log("Time : " + newPost.medTime);
 	console.log("Food : " + newPost.medFood);
-	this.sendSocketNotification('MEDICINE_ADDED', newpost);
+	self.sendSocketNotification('MEDICINE_ADDED', this.newpost);
 	});
 	
       //When a child has been updated
@@ -68,12 +69,12 @@ module.exports = NodeHelper.create({
         this.sendSocketNotification('MEDICINES_CHANGED', medicines);
       });
   },
-  stop: function() {
+  /*stop: function() {
     firebase
       .database()
       .ref(child('medicines/106336659285619048398'))
       .off();
-  },
+  },*/
   socketNotificationReceived: function(notification, payload) {
     console.log(
       `[${this.name}] socketNotificationReceived notification: ${notification}`,
