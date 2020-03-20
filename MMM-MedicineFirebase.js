@@ -33,10 +33,11 @@ Module.register("MMM-MedicineFirebase",{
 
     if (notification === 'MEDICINE_ADDED'){
       this.config.message = payload;
+      this.payload2 = payload;
       this.updateDom();
       }
     if (notification === 'MEDICINES_CHANGED') {
-      this.medicine = payload;
+      this.config.message = payload;
       return this.updateDom();
     }
 
@@ -44,20 +45,14 @@ Module.register("MMM-MedicineFirebase",{
   },
   
   getDom: function() {
-    const wrapper = document.createElement('div');
-    wrapper.id = "MAIN";
-    wrapper.innerHTML = `
-      <h2 class="title">Medicines</h2>`;
-
-      if (this.config === null) {
-      wrapper.innerHTML =
+    var test = this.config.message;
+    const wrapper = document.createElement('div').id("MAIN");
+    if (this.config.message === null) {
+      Log.log(this.name + "is empty!");
+    wrapper.innerHTML =
         '<div class="loading"><span class="zmdi zmdi-rotate-right zmdi-hc-spin"></span> Loading...</div>';
-      return wrapper;
-    }
     return wrapper;
-
-    //I'm not sure whether I want to pass the payload over here and then display the values or display the values down in the 
-    //NotificationReceived method. I'm not doing it right, so both aren't working anyway. :(
+    }
     
     wrapper.innerHTML = `
       <h2 class="title">Medicines</h2>
@@ -65,7 +60,7 @@ Module.register("MMM-MedicineFirebase",{
         <li class="attribute">
           <!--<span class="icon zmdi zmdi-user zmdi-hc-fw"></span>-->
           <span class="name">Medicine Name</span>
-          <span class="value">${this.config.medName}</span>
+          <span class="value">${this.config.message.medName}</span>
         </li>
         <li class="attribute">
           <!--<span class="icon zmdi zmdi-car zmdi-hc-fw"></span>-->
@@ -85,5 +80,12 @@ Module.register("MMM-MedicineFirebase",{
 		  </ul>
 		`;
     return wrapper;
+    
+    
+
+    //I'm not sure whether I want to pass the payload over here and then display the values or display the values down in the 
+    //NotificationReceived method. I'm not doing it right, so both aren't working anyway. :(
+    
+    /* */
   },
 });
