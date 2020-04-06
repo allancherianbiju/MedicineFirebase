@@ -32,7 +32,7 @@ module.exports = NodeHelper.create({
 	 
       //When a new child has been added
       urlRef.on("child_added", function(snapshot, prevChildKey){
-	const newPost = snapshot.val();
+	var newPost = snapshot.val();
 	this.countdown = newPost;
 	console.log("New entry: ");
 	console.log("Name : " + newPost.medName);

@@ -1,10 +1,10 @@
 Module.register("MMM-MedicineFirebase",{
+  message: '',
+  medName: '',
+  medDay: '',
+  medTime: '',
+  medFood: '',
   defaults: {
-    message: '',
-    medName: '',
-    medDay: '',
-    medTime: '',
-    medFood: '',
     firebaseDatabaseRootRef: '/medicines/106336659285619048398',
     title: 'Medicines',
   },
@@ -30,22 +30,18 @@ Module.register("MMM-MedicineFirebase",{
   
   
   socketNotificationReceived: function(notification, payload) {
-    Log.info(
-      `[${this.name}] socketNotificationReceived notification ${notification}`,
-      payload,
-    );
-
     if (notification === 'MEDICINE_ADDED'){
-      this.config.message = payload;
-      this.config.medName = payload.medName;
+      this.config = payload;
+      this.medName = payload.medName;
       this.config.medDay = payload.medDay;
       this.config.medTime = payload.medTime;
       this.config.medFood = payload.medFood;
+			Log.log("Received a notification: " + notification);
       this.updateDom();
       }
     if (notification === 'MEDICINES_CHANGED') {
       this.config.message = payload;
-      return this.updateDom();
+      this.updateDom();
     }
 
     return false;
@@ -53,16 +49,16 @@ Module.register("MMM-MedicineFirebase",{
   
   getDom: function() {
     var test = this.config.message;
-    const wrapper = document.createElement('div').id("MAIN");
-    if (this.config.message === null) {
+    const wrapper = document.createElement('div');
+    /*if (this.config.message === null) {
       Log.log(this.name + "is empty!");
     wrapper.innerHTML =
         '<div class="loading"><span class="zmdi zmdi-rotate-right zmdi-hc-spin"></span> Loading...</div>';
     return wrapper;
-    }
+    }*/
     
     wrapper.innerHTML = `
-      <h2 class="title">Medicines</h2>
+      <h2 class="title">Medicines${this.config.medName}</h2>
       <ul class="attributes">
         <li class="attribute">
           <!--<span class="icon zmdi zmdi-user zmdi-hc-fw"></span>-->
