@@ -1,0 +1,22 @@
+{
+  "name": "mmm-medicinefirebase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "MMM-MedicineFirebase.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdetweil/MedicineFirebase.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sdetweil/MedicineFirebase/issues"
+  },
+  "homepage": "https://github.com/sdetweil/MedicineFirebase#readme",
+  "dependencies": {
+    "firebase": "^7.13.2"
+  }
+}
