@@ -1,12 +1,21 @@
 Module.register("MMM-MedicineFirebase",{
-  message: '',
-  medName: '',
-  medDay: '',
-  medTime: '',
-  medFood: '',
+
   defaults: {
-    firebaseDatabaseRootRef: '/medicines/106336659285619048398',
+    firebaseDatabaseRootRef: '',
     title: 'Medicines',
+    message: '',
+    medName: '',
+    medDay: '',
+    medTime: '',
+    medFood: '',  
+    firebaseCoig: {
+      apiKey: "",
+      authDomain: "",
+      databaseURL: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: ""  
+    }
   },
   getScripts: function() {
     return [
@@ -25,26 +34,23 @@ Module.register("MMM-MedicineFirebase",{
 
   sendConfig: function() {
     Log.info(`[${this.name}]: SEND_CONFIG`, this.config);
-    //this.sendSocketNotification('SEND_CONFIG', this.config);
+    this.sendSocketNotification('SEND_CONFIG', this.config);
   },
   
   
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'MEDICINE_ADDED'){
-      this.config = payload;
-      this.medName = payload.medName;
+      this.config.medName = payload.medName;
       this.config.medDay = payload.medDay;
       this.config.medTime = payload.medTime;
       this.config.medFood = payload.medFood;
-			Log.log("Received a notification: " + notification);
+      Log.log("Received a notification: " + notification);
       this.updateDom();
       }
     if (notification === 'MEDICINES_CHANGED') {
       this.config.message = payload;
       this.updateDom();
     }
-
-    return false;
   },
   
   getDom: function() {
@@ -80,8 +86,8 @@ Module.register("MMM-MedicineFirebase",{
           <span class="name">Food</span>
           <span class="value">${this.config.medFood}</span>
         </li>
-		  </ul>
-		`;
+      </ul>
+    `;
     return wrapper;
   },
 });
