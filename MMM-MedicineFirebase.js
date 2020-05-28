@@ -8,7 +8,7 @@ Module.register("MMM-MedicineFirebase",{
     medDay: '',
     medTime: '',
     medFood: '',  
-    firebaseCoig: {
+    firebaseConfig: {
       apiKey: "",
       authDomain: "",
       databaseURL: "",
@@ -40,49 +40,52 @@ Module.register("MMM-MedicineFirebase",{
   
   socketNotificationReceived: function(notification, payload) {
     if (notification === 'MEDICINE_ADDED'){
+      this.config.message = payload;
       this.config.medName = payload.medName;
       this.config.medDay = payload.medDay;
       this.config.medTime = payload.medTime;
       this.config.medFood = payload.medFood;
-      Log.log("Received a notification: " + notification);
+      var elem = document.getElementById("INSIDE")
+
       this.updateDom();
       }
     if (notification === 'MEDICINES_CHANGED') {
       this.config.message = payload;
+      this.config.medName = payload.medName;
+      this.config.medDay = payload.medDay;
+      this.config.medTime = payload.medTime;
+      this.config.medFood = payload.medFood;
+      
       this.updateDom();
     }
   },
   
   getDom: function() {
     var test = this.config.message;
-    const wrapper = document.createElement('div');
-    /*if (this.config.message === null) {
-      Log.log(this.name + "is empty!");
-    wrapper.innerHTML =
-        '<div class="loading"><span class="zmdi zmdi-rotate-right zmdi-hc-spin"></span> Loading...</div>';
-    return wrapper;
-    }*/
-    
+    var wrapper = document.createElement('div');
+    var elem = document.createElement('div');
+    elem.id = "INSIDE"
+    wrapper.appendChild(elem);
     wrapper.innerHTML = `
-      <h2 class="title">Medicines${this.config.medName}</h2>
+      <h2 class="title">Medicines</h2>
       <ul class="attributes">
         <li class="attribute">
-          <!--<span class="icon zmdi zmdi-user zmdi-hc-fw"></span>-->
-          <span class="name">Medicine Name</span>
+          <span class="icon zmdi zmdi-hospital zmdi-hc-fw"></span>
+          <span class="name">Medicine</span>
           <span class="value">${this.config.medName}</span>
         </li>
         <li class="attribute">
-          <!--<span class="icon zmdi zmdi-car zmdi-hc-fw"></span>-->
+          <span class="icon zmdi zmdi-sun zmdi-hc-fw"></span>
           <span class="name">Day</span>
           <span class="value">${this.config.medDay}</span>
         </li>
         <li class="attribute">
-          <!--<span class="icon zmdi zmdi-clock-outline-alt zmdi-hc-fw"></span>-->
+          <span class="icon zmdi zmdi-hourglass-alt zmdi-hc-fw"></span>
           <span class="name">Time</span>
           <span class="value">${this.config.medTime}</span>
         </li>
         <li class="attribute">
-          <!--<span class="icon zmdi zmdi-food-outline zmdi-hc-fw"></span>-->
+          <span class="icon zmdi zmdi-cutlery zmdi-hc-fw"></span>
           <span class="name">Food</span>
           <span class="value">${this.config.medFood}</span>
         </li>

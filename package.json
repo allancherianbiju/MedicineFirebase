@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sdetweil/MedicineFirebase.git"
+    "url": "git+https://github.com/allancherianbiju/MedicineFirebase.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sdetweil/MedicineFirebase/issues"
+    "url": "https://github.com/allancherianbiju/MedicineFirebase/issues"
   },
-  "homepage": "https://github.com/sdetweil/MedicineFirebase#readme",
+  "homepage": "https://github.com/allancherianbiju/MedicineFirebase#readme",
   "dependencies": {
     "firebase": "^7.13.2"
   }

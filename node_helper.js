@@ -25,7 +25,7 @@ module.exports = NodeHelper.create({
          snapshot.forEach((child)=>{
             //console.log(child.key+": "+child.val());
             countdown = child.val();
-            console.log("test3" + countdown);
+            console.log("Medicines: " + countdown.medName);
             });
        },
        function(errorObject){
@@ -53,6 +53,7 @@ module.exports = NodeHelper.create({
         console.log("Day : " + changedPost.medDay);
         console.log("Time : " + changedPost.medTime);
         console.log("Food : " + changedPost.medFood);
+        self.sendSocketNotification('MEDICINES_CHANGED', changedPost);
         //this.sendSocketNotification("DO_YOUR_JOB", this.x);
       });
   
